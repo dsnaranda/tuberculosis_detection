@@ -5,9 +5,7 @@ ENV/
 
 # Archivos de datos y modelos
 data/normal/*
-!data/normal/.gitkeep
 data/tuberculosis/*
-!data/tuberculosis/.gitkeep
 *.h5
 *.ckpt
 *.tflite
