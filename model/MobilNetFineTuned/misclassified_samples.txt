@@ -1,0 +1,32 @@
+Falsos Positivos (Predijo Tuberculosis, era Normal):
+normal\NORMAL_1090.png - prob: 0.7186
+normal\NORMAL_1114.png - prob: 0.9737
+normal\NORMAL_1180.png - prob: 0.8337
+normal\NORMAL_1213.png - prob: 0.5640
+normal\NORMAL_1444.png - prob: 0.8952
+normal\NORMAL_1483.png - prob: 0.9175
+normal\NORMAL_1487.png - prob: 0.7104
+normal\NORMAL_1496.png - prob: 0.6133
+normal\NORMAL_1711.png - prob: 0.5302
+normal\NORMAL_1792.png - prob: 0.5424
+normal\NORMAL_23.png - prob: 0.7620
+normal\NORMAL_28.png - prob: 0.9617
+normal\NORMAL_30.png - prob: 0.8951
+normal\NORMAL_360.png - prob: 0.7432
+
+Falsos Negativos (Predijo Normal, era Tuberculosis):
+tuberculosis\TB %281172%29.png - prob: 0.3914
+tuberculosis\TB %281234%29.png - prob: 0.3358
+tuberculosis\TB %281236%29.png - prob: 0.2073
+tuberculosis\TB %281242%29.png - prob: 0.2026
+tuberculosis\TB %281243%29.png - prob: 0.0684
+tuberculosis\TB %281250%29.png - prob: 0.4105
+tuberculosis\TB %281411%29.png - prob: 0.3446
+tuberculosis\TB %281438%29.png - prob: 0.0431
+tuberculosis\TB %281448%29.png - prob: 0.0080
+tuberculosis\TB %281456%29.png - prob: 0.4789
+tuberculosis\TB %281611%29.png - prob: 0.2886
+tuberculosis\TB %281617%29.png - prob: 0.4984
+tuberculosis\TB %281741%29.png - prob: 0.1445
+tuberculosis\TB %281938%29.png - prob: 0.1149
+tuberculosis\TB %282020%29.png - prob: 0.1667

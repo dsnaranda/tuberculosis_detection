@@ -3,11 +3,12 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
-p
+
 # Configuración
-IMG_SIZE = 224
-MODEL_PATH = "../model/tuberculosis_model.h5"
-IMAGE_PATH = "Test/TBCONTRASTE.jpg"  # Asegúrate de que este archivo exista en la carpeta src
+# IMG_SIZE = 224
+IMG_SIZE = 256
+MODEL_PATH = "../model/MobilNetFineTuned/tuberculosis_model_finetuned.h5"
+IMAGE_PATH = "Test/TB-Confirmada.jpg"  # Asegúrate de que este archivo exista en la carpeta src
 
 # Cargar modelo
 model = load_model(MODEL_PATH)
