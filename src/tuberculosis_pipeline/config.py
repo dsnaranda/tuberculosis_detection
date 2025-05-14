@@ -1,0 +1,15 @@
+IMG_SIZE = 224
+BATCH_SIZE = 32
+EPOCHS = 40
+
+LEARNING_RATE_FROZEN = 1e-4
+LEARNING_RATE_FINE = 1e-5
+
+DATA_DIR = "../../data"
+TRAIN_DIR = f"{DATA_DIR}/train"
+VAL_DIR = f"{DATA_DIR}/val"
+TEST_DIR = f"{DATA_DIR}/test"
+MODEL_DIR = "../../model"
+
+CLASS_MODE = 'binary'
+INPUT_SHAPE = (IMG_SIZE, IMG_SIZE, 3)

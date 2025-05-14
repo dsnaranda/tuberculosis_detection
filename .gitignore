@@ -4,8 +4,9 @@ env/
 ENV/
 
 # Archivos de datos y modelos
-data/normal/*
-data/tuberculosis/*
+data/test/*
+data/train/*
+data/val/*
 *.h5
 *.ckpt
 *.tflite
