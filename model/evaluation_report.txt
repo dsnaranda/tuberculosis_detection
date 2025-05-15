@@ -1,12 +1,12 @@
               precision    recall  f1-score   support
 
-      normal       0.95      0.95      0.95       130
-          tb       0.95      0.95      0.95       130
+      normal       0.98      0.99      0.98       870
+          tb       0.99      0.98      0.98       870
 
-    accuracy                           0.95       260
-   macro avg       0.95      0.95      0.95       260
-weighted avg       0.95      0.95      0.95       260
+    accuracy                           0.98      1740
+   macro avg       0.98      0.98      0.98      1740
+weighted avg       0.98      0.98      0.98      1740
 
-Sensitivity: 0.9538
-Specificity: 0.9538
-AUC: 0.9919
+Sensitivity: 0.9770
+Specificity: 0.9862
+AUC: 0.9971

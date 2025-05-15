@@ -1,34 +1,77 @@
 import os
-import numpy as np
-import tensorflow as tf
 from tensorflow.keras.models import load_model
-from config import IMG_SIZE, DATA_DIR
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from sklearn.metrics import classification_report, confusion_matrix, roc_curve, auc
+import matplotlib.pyplot as plt
+import seaborn as sns
+from config import MODEL_DIR
 
-# Cargar modelo
-model_path = os.path.join("..", "..", "model", "tuberculosis_model_finetuned.h5")
+# Directorio de test (datos/test)
+test_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'data', 'test'))
+
+# Cargar modelo entrenado
+model_path = os.path.join(MODEL_DIR, 'tuberculosis_model_finetuned.h5')
 model = load_model(model_path)
 
-# Preparar generador de test
-test_gen = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255).flow_from_directory(
-    os.path.join(DATA_DIR, 'test'),
-    target_size=(IMG_SIZE, IMG_SIZE),
+# Generador solo con rescale para test
+test_datagen = ImageDataGenerator(rescale=1./255)
+test_gen = test_datagen.flow_from_directory(
+    test_dir,
+    target_size=(224, 224),
     batch_size=1,
     class_mode='binary',
     shuffle=False
 )
 
-# Obtener predicciones
-predictions = model.predict(test_gen, verbose=1)
-predicted_labels = (predictions > 0.5).astype(int).flatten()
-true_labels = test_gen.classes
+# Evaluar pérdida y exactitud generales
+test_loss, test_acc = model.evaluate(test_gen, verbose=1)
+print(f"Test loss: {test_loss:.4f}, Test accuracy: {test_acc:.4f}")
 
-# Calcular métricas
-correct = np.sum(predicted_labels == true_labels)
-total = len(true_labels)
-incorrect = total - correct
+# Predicciones y métricas detalladas
+probs = model.predict(test_gen).reshape(-1)
+preds = (probs > 0.5).astype(int)
+true = test_gen.classes
+labels = list(test_gen.class_indices.keys())
 
-print(f"\n✅ Evaluación del conjunto de test:")
-print(f"Total de imágenes: {total}")
-print(f"Aciertos: {correct}")
-print(f"Errores: {incorrect}")
-print(f"Precisión: {correct / total:.2%}")
+
+print(classification_report(true, preds, target_names=labels))
+
+# Matriz de confusión
+cm = confusion_matrix(true, preds)
+plt.figure()
+sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=labels, yticklabels=labels)
+plt.title('Confusion Matrix - Test')
+plt.xlabel('Predicted')
+plt.ylabel('True')
+plt.tight_layout()
+plt.savefig(os.path.join(MODEL_DIR, 'confusion_matrix_test.png'))
+plt.close()
+
+# Curva ROC
+tpr, fpr, _ = None, None, None  # placeholders
+fpr, tpr, _ = roc_curve(true, probs)
+roc_auc = auc(fpr, tpr)
+plt.figure()
+plt.plot(fpr, tpr, label=f'AUC = {roc_auc:.2f}')
+plt.plot([0,1], [0,1], linestyle='--')
+plt.title('ROC Curve - Test')
+plt.xlabel('FPR')
+plt.ylabel('TPR')
+plt.legend()
+plt.tight_layout()
+plt.savefig(os.path.join(MODEL_DIR, 'roc_curve_test.png'))
+plt.close()
+
+import numpy as np
+
+# Cálculo de aciertos y errores
+total_samples = len(true)
+correct_predictions = np.sum(preds == true)
+incorrect_predictions = total_samples - correct_predictions
+
+accuracy_percent = (correct_predictions / total_samples) * 100
+error_percent = (incorrect_predictions / total_samples) * 100
+
+print(f"\nTotal de muestras de test: {total_samples}")
+print(f"Aciertos: {correct_predictions} ({accuracy_percent:.2f}%)")
+print(f"Fallos: {incorrect_predictions} ({error_percent:.2f}%)")

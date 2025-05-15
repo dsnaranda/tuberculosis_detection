@@ -1,11 +1,14 @@
 import os
-import tensorflow as tf
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from config import IMG_SIZE, BATCH_SIZE, DATA_DIR
+from config import IMG_SIZE, BATCH_SIZE, TRAIN_DIR, VAL_DIR, CLASS_MODE
 
 
 def get_data_generators():
-    train_aug = ImageDataGenerator(
+  
+    # Devuelve dos generadores: train y val.
+    # Aplica aumento de datos solo a train y val.
+  
+    datagen = ImageDataGenerator(
         rescale=1./255,
         rotation_range=20,
         width_shift_range=0.2,
@@ -13,34 +16,23 @@ def get_data_generators():
         zoom_range=0.2,
         brightness_range=(0.8, 1.2),
         horizontal_flip=True,
-        fill_mode='nearest',
-        validation_split=0.15
+        fill_mode='nearest'
     )
 
-    train_gen = train_aug.flow_from_directory(
-        os.path.join(DATA_DIR, 'train'),
+    train_gen = datagen.flow_from_directory(
+        TRAIN_DIR,
         target_size=(IMG_SIZE, IMG_SIZE),
         batch_size=BATCH_SIZE,
-        class_mode='binary',
-        subset='training',
+        class_mode=CLASS_MODE,
         shuffle=True
     )
 
-    val_gen = train_aug.flow_from_directory(
-        os.path.join(DATA_DIR, 'val'),
+    val_gen = datagen.flow_from_directory(
+        VAL_DIR,
         target_size=(IMG_SIZE, IMG_SIZE),
         batch_size=BATCH_SIZE,
-        class_mode='binary',
-        subset='validation',
+        class_mode=CLASS_MODE,
         shuffle=False
     )
 
-    test_gen = ImageDataGenerator(rescale=1./255).flow_from_directory(
-        os.path.join(DATA_DIR, 'test'),
-        target_size=(IMG_SIZE, IMG_SIZE),
-        batch_size=1,
-        class_mode='binary',
-        shuffle=False
-    )
-
-    return train_gen, val_gen, test_gen
+    return train_gen, val_gen
